@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Feed</title>
+</head>
+<body>
+    <h1>Today's News</h1>
+    {% for news_item in news %}
+        <div>
+            <h2><a href="{{ news_item[2] }}" target="_blank">{{ news_item[0] }}</a></h2>
+            <p><strong>Published:</strong> {{ news_item[1] }}</p>
+            {% if news_item[3] %}
+                <img src="{{ news_item[3] }}" alt="News Image" width="300">
+            {% endif %}
+            <p>{{ news_item[4] }}</p>
+        </div>
+        <hr>
+    {% endfor %}
+</body>
+</html>

@@ -28,9 +28,22 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    volumes:
-      - ./rss_reader.py:/app/rss_reader.py
-    command: ["python", "/app/rss_reader.py"]
+    working_dir: /app/rss_reader
+    command: ["python", "rss_reader.py"]
+
+  web_app:
+    build: ./web_app
+    container_name: web_app
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "5000:5000"
+    working_dir: /app/web_app
+    command: ["python", "web_app.py"]
 
 volumes:
   postgres_data:
