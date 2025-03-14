@@ -4,19 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News Feed</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
-<body>
-    <h1>Today's News</h1>
+<body class="container mt-4">
+    <h1 class="mb-3">News Feed</h1>
+    
+    <form method="GET" class="mb-3">
+        <label for="date">Select Date:</label>
+        <input type="date" id="date" name="date" value="{{ selected_date }}">
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </form>
+    
     {% for news_item in news %}
-        <div>
-            <h2><a href="{{ news_item[2] }}" target="_blank">{{ news_item[0] }}</a></h2>
-            <p><strong>Published:</strong> {{ news_item[1] }}</p>
-            {% if news_item[3] %}
-                <img src="{{ news_item[3] }}" alt="News Image" width="300">
-            {% endif %}
-            <p>{{ news_item[4] }}</p>
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <a href="{{ news_item[2] }}" target="_blank">{{ news_item[0] }}</a>
+                </h5>
+                <p class="card-text"><small class="text-muted">Published: {{ news_item[1] }}</small></p>
+                {% if news_item[3] %}
+                    <img src="{{ news_item[3] }}" alt="News Image" class="img-fluid" width="300">
+                {% endif %}
+                <p class="card-text">{{ news_item[4] }}</p>
+            </div>
         </div>
-        <hr>
     {% endfor %}
+
+    <script>
+        document.getElementById('date').addEventListener('change', function() {
+            this.form.submit();
+        });
+    </script>
 </body>
 </html>
