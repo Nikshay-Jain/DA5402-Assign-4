@@ -40,15 +40,19 @@ def insert_articles(articles):
     """Insert new articles into the database, avoiding duplicates."""
     conn = connect_db()
     cursor = conn.cursor()
+
     for article in articles:
+        # Insert the article only if it doesn't already exist
         cursor.execute("""
             INSERT INTO news (title, publication_timestamp, link, image_url, tags, summary)
             VALUES (%s, %s, %s, %s, %s, %s)
             ON CONFLICT (link) DO NOTHING;
         """, article)
+
     conn.commit()
     cursor.close()
     conn.close()
+
 
 def main():
     """Main loop to fetch and store RSS data periodically."""

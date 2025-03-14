@@ -8,7 +8,7 @@ WORKDIR /app/rss_reader
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the application
+# Copy the application files
 COPY . .
 
 # Run the RSS reader script

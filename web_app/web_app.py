@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 import psycopg2
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 
 app = Flask(__name__)
 
@@ -17,16 +17,22 @@ def fetch_news(selected_date):
     """Fetch news articles from the database for the given date."""
     conn = psycopg2.connect(**DB_PARAMS)
     cursor = conn.cursor()
+
+    # Print the selected date for debugging
+    print(f"DEBUG: Querying news for date: {selected_date}")
+
     cursor.execute("""
         SELECT title, publication_timestamp, link, image_url, summary 
         FROM news 
-        WHERE publication_timestamp::date = %s
+        WHERE publication_timestamp::date = %s::date
         ORDER BY publication_timestamp DESC;
     """, (selected_date,))
+
     news_items = cursor.fetchall()
     cursor.close()
     conn.close()
     return news_items
+
 
 @app.route('/', methods=['GET'])
 def home():
