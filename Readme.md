@@ -18,9 +18,9 @@ The system consists of three main services:
 ### **1. Prerequisites**
 Ensure you have the following installed:
 - **Docker** & **Docker Compose**
-- **Python 3.9** (if running scripts locally for debugging)
+- **Python 3.9+** (if running scripts locally for debugging)
 
-### **2. Clone the Repository**
+### **2. Clone the GitHub Repository for source code**
 ```sh
  git clone https://github.com/Nikshay-Jain/DA5402-Assign-4.git
 ```
