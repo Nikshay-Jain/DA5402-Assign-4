@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: rss_db
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+      - ./db-check.sh:/docker-entrypoint-initdb.d/db-check.sh
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]
+      interval: 10s
+      retries: 5
+      start_period: 5s
+
+  rss_reader:
+    build: ./rss_reader
+    container_name: rss_reader
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./rss_reader.py:/app/rss_reader.py
+    command: ["python", "/app/rss_reader.py"]
+
+volumes:
+  postgres_data:
